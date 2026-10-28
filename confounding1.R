@@ -149,6 +149,30 @@ cat(sprintf("Propensity Score Matched OR: %.3f (95%% CI: %.3f - %.3f)\n",
 
 
 # ==============================================================================
+# 5. ASSESS COVARIATE BALANCE (DIAGNOSTICS)
+# ==============================================================================
+
+
+library(cobalt)
+
+# Love Plot: standardized mean differences before vs after matching (target < 0.1)
+love.plot(
+  match_obj,
+  thresholds = c(m = 0.1),
+  var.names = c(
+    ptl_bin = "Premature Labor History",
+    lwt     = "Mother's Weight (lbs)",
+    age     = "Mother's Age",
+    race_f  = "Race"
+  ),
+  abs = TRUE,
+  var.order = "unadjusted",  # Orders variables from most imbalanced to least
+  stars = "raw",             # Clean variable display for factor levels
+  title = "Covariate Balance Before and After Matching"
+)
+
+
+# ==============================================================================
 # PART 5: SYNTHESIS SUMMARY TABLE
 # ==============================================================================
 cat("\n========================================================\n")
